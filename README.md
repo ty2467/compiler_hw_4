@@ -1,7 +1,7 @@
 name: Mike Yang  
 uni: ty2467
 
-Optimizations:
+Optimizations:  
     Constant Folding  
     Constant Propagation  
     Strength Reduction  
