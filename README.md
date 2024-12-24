@@ -1,37 +1,37 @@
-name: Mike Yang
+name: Mike Yang  
 uni: ty2467
 
 Optimizations:
-    Constant Folding
-    Constant Propagation
-    Strength Reduction
-    Copy Propagation
+    Constant Folding  
+    Constant Propagation  
+    Strength Reduction  
+    Copy Propagation  
 
 Explanation:
 optimize.py:
--file with all the optimization functions
--constant folding; if there is an instruction with two constants, the computation gets performed in compile time 
--constant propagation: propagates the constant assigned to a variable
--strength reduction: makes multiplication into addition for cheaper. note if the factor is too high then don't do it
-copy propagation: propagates a variable assignment
+-file with all the optimization functions  
+-constant folding; if there is an instruction with two constants, the computation gets performed in compile time  
+-constant propagation: propagates the constant assigned to a variable  
+-strength reduction: makes multiplication into addition for cheaper. note if the factor is too high then don't do it  
+copy propagation: propagates a variable assignment  
 
-these functions will get called by instruction_selection
+these functions will get called by instruction_selection  
 
-instruction_selection.py:
+instruction_selection.py:  
 same instruction selection algorithm from HW3. It takes a tree, and generates code. Now, before it generates code,
-it first optimizes it.
+it first optimizes it.  
 Of course only instruction_selection.py needs to run. instruction_selection calls the optimizing functions from optimize.py
-and executes the optimization on them. 
+and executes the optimization on them.  
 
 
-node_class_4.py:
-four test cases, each an IR with their problem  
+node_class_4.py:  
+four test cases, each an IR with their problem   
 same constraint on hw3 persists, for both homeworks only can start from ast, not lexer or sc.
 
 
 
 
-Video Link:
+Video Link:  
 https://drive.google.com/drive/u/0/home
 
 
