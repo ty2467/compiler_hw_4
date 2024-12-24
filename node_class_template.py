@@ -14,6 +14,7 @@ class Node:
 #constant folding
 # x = 2 + 3        # This can be folded to x = 5
 # y = x * 4        # Uses the folded constant for x
+# z = y - 10       # Uses the folded constant for y
 
 module_node1 = Node("Module", children=[
     # Line 1: x = 2 + 3
@@ -31,6 +32,14 @@ module_node1 = Node("Module", children=[
             Node("Name", value="x"),       # Operand: x
             Node("Constant", value=4)      # Operand: 4
         ])
+    ]),
+    # Line 3: z = y - 10
+    Node("Assign", value="=", children=[
+        Node("Name", value="z"),           # LHS
+        Node("BinOp", value="-", children=[
+            Node("Name", value="y"),       # Operand: y
+            Node("Constant", value=10)     # Operand: 10
+        ])
     ])
 ])
 
@@ -38,7 +47,7 @@ module_node1 = Node("Module", children=[
 #constant propagation
 # x = 5          # Constant assignment
 # y = x + 3      # Can propagate x as 5, making y = 5 + 3
-
+# z = y * 2      # Can propagate y as 8, making z = 8 * 2
 
 module_node2 = Node("Module", children=[
     # Line 1: x = 5
@@ -53,13 +62,21 @@ module_node2 = Node("Module", children=[
             Node("Name", value="x"),       # Operand: x
             Node("Constant", value=3)      # Operand: 3
         ])
+    ]),
+    # Line 3: z = y * 2
+    Node("Assign", value="=", children=[
+        Node("Name", value="z"),           # LHS
+        Node("BinOp", value="*", children=[
+            Node("Name", value="y"),       # Operand: y
+            Node("Constant", value=2)      # Operand: 2
+        ])
     ])
 ])
 
 #strength reduction
 # a = 5 + 3          # Simple addition
 # b = a * 2          # Multiplication can be reduced to b = a + a
-
+# c = b * 2          # Another multiplication reducible to c = b + b
 
 module_node3 = Node("Module", children=[
     # Line 1: a = 5 + 3
@@ -77,15 +94,29 @@ module_node3 = Node("Module", children=[
             Node("Name", value="a"),       # Operand: a
             Node("Constant", value=2)      # Operand: 2
         ])
+    ]),
+    # Line 3: c = b * 2
+    Node("Assign", value="=", children=[
+        Node("Name", value="c"),           # LHS
+        Node("BinOp", value="*", children=[
+            Node("Name", value="b"),       # Operand: b
+            Node("Constant", value=2)      # Operand: 2
+        ])
     ])
 ])
 
 
 #copy propagation
+# a = 10          # Original value assignment
 # b = a           # Copy of a
 # c = b + 5       # Can propagate b as a, making c = a + 5
 
 module_node4 = Node("Module", children=[
+    # Line 1: a = 10
+    Node("Assign", value="=", children=[
+        Node("Name", value="a"),           # LHS
+        Node("Constant", value=10)         # RHS
+    ]),
     # Line 2: b = a
     Node("Assign", value="=", children=[
         Node("Name", value="b"),           # LHS
